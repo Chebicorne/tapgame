@@ -1,8 +1,9 @@
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import ZoomText from '../components/ZoomText';
 import CustomText from '../components/CustomText';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Countdown from './CountDown';
 export default function HomePage() {
     const [gameStart, setGameStart] = useState(false)
@@ -21,6 +22,16 @@ export default function HomePage() {
             setGameEnd(true)
         }
     }
+
+    const scaleAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(scaleAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+        }).start();
+    }, []);
 
     const tap = (side: Boolean) => {
         if (gameStart) {
@@ -45,7 +56,17 @@ export default function HomePage() {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                 >
-                    {player1Win ? <CustomText text="T'as gagné mon reuf" /> : <CustomText text="T'as perdu mon reuf" />}
+                    {player1Win ?
+                        <View>
+                            <CustomText font={true} style={styles.fWord} text="Tu" />
+                            <ZoomText font={true} style={styles.sWord} text="gagnes" />
+                        </View>
+                        :
+                        <View>
+                            <CustomText font={true} style={styles.fWord} text="Tu" />
+                            <ZoomText font={true} style={styles.sWord} text="perds" />
+                        </View>
+                    }
                 </LinearGradient>
 
                 <LinearGradient
@@ -54,7 +75,17 @@ export default function HomePage() {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 1, y: 1 }}
                 >
-                    {player1Win ? <CustomText text="T'as perdu mon reuf" /> : <CustomText text="T'as gagné mon reuf" />}
+                    {player1Win ?
+                        <View>
+                            <CustomText font={true} style={styles.fWord} text="Tu" />
+                            <ZoomText font={true} style={styles.sWord} text="perds" />
+                        </View>
+                        :
+                        <View>
+                            <CustomText font={true} style={styles.fWord} text="Tu" />
+                            <ZoomText font={true} style={styles.sWord} text="gagnes" />
+                        </View>
+                    }
 
                 </LinearGradient>
             </View>
@@ -123,19 +154,43 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     side: {
-        height: "50%"
+        height: "50%",
+        padding: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative"
     },
     side2: {
         height: "50%",
+        justifyContent: "center",
+        padding: 40,
         alignItems: "center",
-        justifyContent: "center"
+        position: "relative"
+
     },
     text: {
-        fontSize: 50,
+        fontSize: 70,
         color: "white",
         textShadowOffset: { width: 1, height: 2 },
         textShadowRadius: 10,
         shadowOpacity: 0,
         textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    fWord: {
+        fontSize: 60,
+        color: "white",
+        textShadowOffset: { width: 1, height: 2 },
+        textShadowRadius: 10,
+        shadowOpacity: 0,
+        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    sWord: {
+        fontSize: 90,
+        color: "white",
+        textShadowOffset: { width: 1, height: 2 },
+        textShadowRadius: 10,
+        shadowOpacity: 0,
+        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        transform: [{ rotate: '-5deg' }],
     }
-});
+}); 

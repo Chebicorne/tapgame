@@ -5,23 +5,38 @@ import CustomText from '../components/CustomText';
 
 import { useState, useEffect, useRef } from 'react';
 import Countdown from './CountDown';
-export default function HomePage() {
+export default function HomePage({ navigation, route  }: { navigation: any, route: any }) {
     const [gameStart, setGameStart] = useState(false)
     const [gameEnd, setGameEnd] = useState(false)
     const [player1Win, setPlayer1Win] = useState(false)
     const [upHeight, setUpHeight] = useState(50)
     const [downHeight, setDownHeight] = useState(50)
-    const [gameTimer, setGameTimer] = useState(0)
+    const [addValue, setAddValue] = useState(5);
+    const { isCheating } = route.params;
     const checkWin = () => {
-        if (upHeight == 0 || downHeight == 0) {
+        if (upHeight <= 0 || downHeight <= 0) {
             if (upHeight == 0) {
                 setPlayer1Win(true);
             } else {
                 setPlayer1Win(false);
             }
-            setGameEnd(true)
+            setGameEnd(true);
+            setTimeout(() => {
+                navigation.navigate("HomeScreen");
+            }, 5000);
         }
     }
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (!gameEnd && gameStart && addValue < 16) {
+                setAddValue(addValue => addValue + 2);
+            }
+        }, 2000);
+
+        return () => clearInterval(intervalId);
+    }, [gameEnd, gameStart]);
+
 
     const scaleAnim = useRef(new Animated.Value(0)).current;
 
@@ -32,16 +47,15 @@ export default function HomePage() {
             useNativeDriver: true
         }).start();
     }, []);
-
     const tap = (side: Boolean) => {
         if (gameStart) {
             if (!side) {
-                setUpHeight(upHeight + 5);
-                setDownHeight(downHeight - 5);
+                setUpHeight(upHeight + (isCheating ? addValue + 3 : addValue));
+                setDownHeight(downHeight - (isCheating ? addValue + 3 : addValue));
             }
             else {
-                setDownHeight(downHeight + 5);
-                setUpHeight(upHeight - 5);
+                setDownHeight(downHeight + addValue);
+                setUpHeight(upHeight - addValue);
             }
             checkWin()
         }

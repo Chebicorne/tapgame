@@ -33,7 +33,7 @@ const Countdown = ({ duration, onFinish }: { duration: any, onFinish: any }) => 
 };
 const styles = StyleSheet.create({
     text: {
-        fontSize: 50,
+        fontSize: 150,
         color: "white",
         textShadowOffset: { width: 1, height: 2 },
         textShadowRadius: 10,

@@ -3,9 +3,12 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Link
 import { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomText from './assets/components/CustomText';
+import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 export default function App({ navigation }: { navigation: any }) {
   const [scaleValue] = useState(new Animated.Value(1));
+  const [isCheating, setIsCheating] = useState(false);
+
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -45,7 +48,7 @@ export default function App({ navigation }: { navigation: any }) {
         </Animated.Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.replace('TapGame')}
+        onPress={() => navigation.navigate('TapGame', { isCheating: isCheating })}
         activeOpacity={0.8}
         style={styles.container}>
         <Image style={styles.logo2} source={require('./assets/tapgame.png')} />
@@ -58,12 +61,15 @@ export default function App({ navigation }: { navigation: any }) {
       </TouchableOpacity>
 
       <View style={styles.links}>
+        <TouchableOpacity style={styles.invisible} onPress={() => { setIsCheating(!isCheating) }}>
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => Linking.openURL("https://www.tiktok.com/@shotxlejeu")}>
           <Image style={styles.rs} source={require('./assets/followtiktok.png')} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => Linking.openURL("https://www.tiktok.com/@shotxlejeu")}>
           <Image style={styles.rs} source={require('./assets/followinsta.png')} />
         </TouchableOpacity>
+        <View style={isCheating ? styles.green : styles.red}></View>
       </View>
     </LinearGradient>
   );
@@ -119,5 +125,23 @@ const styles = StyleSheet.create({
     height: 50.8,
     borderRadius: 15,
     marginBottom: 5
+  },
+  invisible: {
+    backgroundColor: "transparent",
+    width: 341.6,
+    height: 50.8,
+    marginBottom: 5
+  },
+  green: {
+    backgroundColor: "green",
+    height: 10,
+    width: 10,
+    borderRadius: 20
+  },
+  red: {
+    backgroundColor: "red",
+    height: 10,
+    width: 10,
+    borderRadius: 20
   }
 });

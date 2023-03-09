@@ -4,12 +4,12 @@
     "slug": "tapgame",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icone.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFDB01"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.chebicorne.tapgame"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Icone.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b983cbbd-b38c-40bf-9889-709838021879"
+      }
     }
   }
 }

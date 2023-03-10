@@ -1,14 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing } from 'react-native';
-import { useState, useEffect } from 'react';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "./Home"
 import TapGame from "./assets/tapgame/index"
+const Stack = createNativeStackNavigator();
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState('Home');
-  const Stack = createNativeStackNavigator();
-
   return (
     <NavigationContainer>
       <StatusBar hidden={true} />

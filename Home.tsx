@@ -1,9 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Animated, Easing, Linking } from 'react-native';
 import { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomText from './assets/components/CustomText';
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
 
 export default function App({ navigation }: { navigation: any }) {
   const [scaleValue] = useState(new Animated.Value(1));
